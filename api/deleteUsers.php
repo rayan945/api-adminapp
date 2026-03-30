@@ -12,17 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 include "db.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data || !isset($data['id'])) {
+    echo json_encode(["message" => "ID manquant"]);
+    exit();
+}
+
 $id = $data['id'];
 
 $sql = "DELETE FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
 $stmt->execute([':id' => $id]);
 
-if ($stmt->rowCount() > 0) {
-    echo json_encode(["message" => "Utilisateur supprimé"]);
-} else {
-    echo json_encode(["message" => "Erreur"]);
-}
+echo json_encode(["message" => "Utilisateur supprimé"]);
 ?>
-```
 
