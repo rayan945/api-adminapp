@@ -15,7 +15,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $prenom = $data['prenom'];
 $nom = $data['nom'];
 $email = $data['email'];
-$mdp = password_hash($data['mdp'], PASSWORD_DEFAULT);
+$mdp = sha1($data['mdp']);
 
 $sql = "INSERT INTO users (prenom, nom, email, mdp) VALUES (:prenom, :nom, :email, :mdp)";
 $stmt = $conn->prepare($sql);
